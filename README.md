@@ -1,15 +1,11 @@
 # Foundry: Cast (generate) strings from molds and data
 
-## Requirement: PHP 8
-
+1. Requirement: *PHP 8*  
 Either https://www.php.net/downloads.php or https://windows.php.net/download
 
----
-## Read The [License](License.txt)
+1. Read the [License](./LICENSE.txt)
 
----
-## Instructions:
-For Instructions on how to use Foundry in your project, read the [INSTRUCTIONS](INSTRUCTIONS.md) file.
+1. For Instructions on how to set up and use Foundry in your project, read the [INSTRUCTIONS](INSTRUCTIONS.md) file.
 
 ---
 ## Basic functionality
