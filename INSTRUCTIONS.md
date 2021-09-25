@@ -1,5 +1,7 @@
 INSTRUCTIONS:
 
+1. Install php if necessary
+ 
 1. Download the Foundry zip file from https://github.com/LMurphy001/Foundry/releases
 
 1. Unpack the zip file somewhere
