@@ -5,7 +5,7 @@
 Either https://www.php.net/downloads.php or https://windows.php.net/download
 
 ---
-## Read The [License](License)
+## Read The [License](License.txt)
 
 ---
 ## Instructions:
