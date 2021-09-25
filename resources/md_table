@@ -1,0 +1,6 @@
+### {$caption}
+
+Num|Name|Color|Price
+---|---|---|---
+{$rows}
+

@@ -1,0 +1,42 @@
+body {
+  background-color: ghostwhite;
+  }
+h1 {
+    margin-right: 30px;
+}
+caption {
+  border: 2px sold black;
+}
+table{
+  border-collapse: collapse;
+  border: 2px solid gainsboro;
+  letter-spacing: 1px;
+  font-size: 1.1rem;
+  margin: 10px;
+}
+td, th {
+    border: 1px solid rgb(190,190,190);
+    padding: 10px 20px;
+}
+
+th {
+  background-color: rgb(235,235,235);
+}
+
+td {
+  text-align:justify
+}
+
+tr:nth-child(even) td {
+  background-color: rgb(240,250,230);
+}
+
+tr:nth-child(odd) td {
+  background-color: rgb(230,240,220);
+}
+
+caption {
+  padding: 10px;
+  border: 1px solid #AAA;
+  background-color:lightgreen;
+}

@@ -1,0 +1,1 @@
+<tr>  <td>{$num}.</td>  <td>{$name}</td>  <td>{$color}</td>  <td>{$price}</td>  </tr>

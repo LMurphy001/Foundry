@@ -1,0 +1,16 @@
+This is some text.
+    I'd like to see if my whitespace stays where I put it.    
+The previous line had 4 spaces at the end of it.
+	This line has a tab at the beginning.
+
+Let's do substitutions. Anyone hungry for fruit?
+The {$color} {$name} costs ${$price}.
+
+Here are some other things which might match but shouldn't:
+   {$obj->method()} Call method of obj and put the results here...??
+   {$arr[0]} Output the first element of $arr.
+   {$a["double"]} 
+   {$a['single']}
+   {No_dollar_sign}
+
+So how are we doing? Is the {$name} still {$color}?
