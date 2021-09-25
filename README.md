@@ -1,4 +1,4 @@
-# Foundry: Cast (generate) strings from molds and data
+# Foundry: Generate strings from molds and data
 
 1. Requirement: *PHP 8*  
 Either https://www.php.net/downloads.php or https://windows.php.net/download
