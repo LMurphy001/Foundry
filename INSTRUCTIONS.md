@@ -1,6 +1,6 @@
 INSTRUCTIONS:
 
-1. Download the Foundry zip file
+1. Download the Foundry zip file from https://github.com/LMurphy001/Foundry/releases
 
 1. Unpack the zip file somewhere
 
