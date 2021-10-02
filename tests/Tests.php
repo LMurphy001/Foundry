@@ -1,30 +1,32 @@
 <?php declare(strict_types=1);
 require __DIR__ . DIRECTORY_SEPARATOR . 'Fruit.php';
 
-use LM\Foundry\{Cast,ToArray,Config};
+use LM\Foundry\{Cast,Utils,Config};
 
 class Tests {
     static function testFormat($format) : void {
         /* Generate the given format for each type of input data */
-        $s = '';
+        //$s = '';
 
-        $s .= Tests::singleFruit($format);
-        $s .= Tests::multipleFruit($format);
+        
+        Tests::singleFruit($format);
+        Tests::singleObject($format);
+        Tests::json_str1($format);
 
-        $s .= Tests::singleObject($format);
-        $s .= Tests::objectList($format);
+        Tests::multipleFruit($format);
+        Tests::objectList($format);
+        Tests::csv_file($format);
+        Tests::json_file($format);
 
-        $s .= Tests::json_file($format);
-        $s .= Tests::json_str1($format);
-        $s .= Tests::json_str2($format);
+        Tests::json_str2($format);
+        Tests::pdo_fetchall($format);
 
-        $s .= Tests::csv_file($format);
-
-        $s .= Tests::pdo_fetchall($format);
+        Tests::json_file2($format);
 
         // All tests are complete for this format. The results have been accumulated in $s.
 
         //Put the pieces together, i.e. 'chain' the results from the other molds as input to the $format_doc mold.
+        /*
         $moldFile = Config::getMoldDir() . $format.'_doc';
         $docArray = array(
             'doc_title'       => strtoupper($format).' FORMAT TESTS',
@@ -40,18 +42,29 @@ class Tests {
             // This echoes the final result, but it could be placed somewhere else.
             echo $docResults->getInfo();
         }
-        echo PHP_EOL.PHP_EOL;
+        echo PHP_EOL.PHP_EOL;*/
     }
 
-    private static function run(string $testName, array $arr, string $generateFormat, string $fileExt='') : string
+    private static function run(string $testName, mixed $data, string $generateFormat, string $fileExt='')
     {
+        echo "\n***** Run $testName. Data type: " . gettype($data);
+        if (is_countable($data)) echo ". Count " . strval(count($data));
+        echo ".\n";
+        //print_r($data);
+
         $resStr = '';
         if (strlen($fileExt)>0) {
             $fileExt = '.' . $fileExt;
         }
         $moldFile = Config::getMoldDir() . $generateFormat . '_row' . $fileExt;
-        $results = Cast::pour($moldFile, $arr);
+        $molded = Cast::pour($moldFile, $data);
 
+        echo "Molded. Type: " .gettype($molded) . "\n";
+        echo "======================\n";
+        print_r($molded);
+        echo "======================\n";
+        return ( $molded );
+        /*
         if ($results->hasError()) {
             error_log("TEST '" . $testName ."' FOR '" . $generateFormat . "' FORMAT, " .
                 "ERROR(S)." .PHP_EOL. $results->getError() .PHP_EOL);
@@ -71,19 +84,20 @@ class Tests {
             $resStr .= $results->getInfo(); // Accumulate results in $resStr
         }
         return $resStr;
+        */
     }
 
-    static function singleFruit(string $generateFormat) : string {
+    static function singleFruit(string $generateFormat)  {
         $singleFruit = array("name"=>"Red Delicious", "color"=>"red", "price"=>1.25);
         // We need to pass an array of associative arrays:
-        $singleFruit = array( $singleFruit );
+        //$singleFruit = array( $singleFruit );
         return SELF::run("singleFruit", $singleFruit, $generateFormat);
     }
-    static function multipleFruit(string $generateFormat) : string {
+    static function multipleFruit(string $generateFormat)  {
         /* THIS TEST CONTAINS INTENTIONAL ERRORS!
         1. 'fruity->name' is not a valid variable name.
         2. 'banana' is missing a price.
-        These two things SHOULD an error. */ 
+        These two things SHOULD show an error. */ 
         $fruitList = array (
             array( "color"=>"green",  "name"=>"grapes", "price"=>"1.50", '$fruity->name'=>"juicy"),
             array( "color"=>"red",    "name"=>"red delicious", "price"=>"1.00", 'num'=>"100"),
@@ -92,38 +106,49 @@ class Tests {
             array( "color"=>"orange", "name"=>"papaya", "price"=>"3.50" ) );
         return SELF::run("multipleFruit", $fruitList, $generateFormat);
     }
-    static function singleObject(string $generateFormat) : string {
-        $banana = new Fruit("Banana", "yellow", "0.85");
-        $arr = ToArray::Object($banana);
-        return SELF::run("singleObject",  $arr, $generateFormat);
+    static function singleObject(string $generateFormat) {
+        $banana = new Fruit("Banana", "yellow", 0.85);
+        //$arr = ToArray::Object($banana);
+        return SELF::run("singleObject",  $banana, $generateFormat);
     }
-    static function objectList( string $generateFormat) : string {
-        $banana = new Fruit("Banana", "yellow", "0.85");
-        $kiwi = new Fruit("Kiwi", "green", "2.50");
-        $pomegranate = new Fruit("Pomegranate", "red", "3.99");
+    static function objectList( string $generateFormat) {
+        $banana = new Fruit("Banana", "yellow", 0.85);
+        $kiwi = new Fruit("Kiwi", "green", 2.50);
+        $pomegranate = new Fruit("Pomegranate", "red", 3.99);
         $fruitArray = array ( $kiwi, $banana, $pomegranate);
-        $arr = ToArray::ListOfObjects($fruitArray);
-        return SELF::run("objectList", $arr, $generateFormat );
+        /*$arr = ToArray::ListOfObjects($fruitArray);*/
+        return SELF::run("objectList", $fruitArray, $generateFormat );
     }
-    static function json_file(string $generateFormat) : string {
+    static function json_file(string $generateFormat) {
         $jsonFile = __DIR__ . DIRECTORY_SEPARATOR. 'data' .DIRECTORY_SEPARATOR. 'fruit.json';
-        return SELF::run("json_file", ToArray::JsonFile($jsonFile), $generateFormat);
+        $data = Utils::DecodeJsonFile($jsonFile);
+        return SELF::run("json_file", $data, $generateFormat);
     }
-    static function json_str1(string $generateFormat) : string {
+    static function json_file2(string $generateFormat) {
+        $jsonFile2 = __DIR__ . DIRECTORY_SEPARATOR. 'data' . DIRECTORY_SEPARATOR . 'fruit_embedded.json';
+        $data = Utils::DecodeJsonFile($jsonFile2);
+        return SELF::run("json_file2", $data, $generateFormat);
+    }
+    static function json_str1(string $generateFormat) {
         $jsonStr = '{ "color":"orange", "name":"papaya", "price":"3.50" }';
-        return SELF::run("json_str1", ToArray::JsonStr($jsonStr), $generateFormat);
+        //$data = ToArray::JsonStr($jsonStr);
+        $data = json_decode($jsonStr);
+        return SELF::run("json_str1", $data, $generateFormat);
     }
-    static function json_str2(string $generateFormat) : string {
+    static function json_str2(string $generateFormat) {
         $jsonStr = '{ "color":"orange", "name":"papaya", "price":"3.50" }';
         $jsonStr2 = '{ "color":"purple", "name":"plum", "price":"1.20" }';
         $jsonArrStr = '[' .$jsonStr. ', ' .$jsonStr2. ']';
-        return SELF::run("json_str2", ToArray::JsonStr($jsonArrStr), $generateFormat);
+        //$data = ToArray::JsonStr($jsonArrStr);
+        $data = json_decode($jsonArrStr);
+        return SELF::run("json_str2", $data, $generateFormat);
     }
-    static function csv_file(string $generateFormat) : string {
+    static function csv_file(string $generateFormat) {
         $csvFile = __DIR__.DIRECTORY_SEPARATOR. 'data' .DIRECTORY_SEPARATOR. 'fruit.csv';
-        return SELF::run("csv_file", ToArray::CSVFile($csvFile), $generateFormat);
+        $data = Utils::CSVFileToArray($csvFile);
+        return SELF::run("csv_file", $data, $generateFormat);
     }
-    static function pdo_fetchall(string $generateFormat) : string {
+    static function pdo_fetchall(string $generateFormat) {
         $dbFile = __DIR__.DIRECTORY_SEPARATOR.'data' . DIRECTORY_SEPARATOR . 'fruit.sqlite';
         $db = new \PDO('sqlite:' . $dbFile );
         if ($db) {
@@ -140,6 +165,4 @@ class Tests {
         }
         return '';
     }
-
-
 }

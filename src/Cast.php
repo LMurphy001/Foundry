@@ -5,6 +5,9 @@ class Cast
 {
     static function pour(string $moldFileName, mixed $liquid, bool $useHtmlSpecialChars=true, int $depth=0 ) : string|array
     {
+        // TODO: Change $moldFileName to an array or object or set. Use $depth to help determine which of the molds to use...
+        // Somehow figure out, when recursive call is made, which mold file to fill.
+        
         $results = new Results();
         // Take care of base cases:
         if (is_bool($liquid)) {
@@ -31,7 +34,7 @@ class Cast
             $name_val_pairs = $liquid;
         }
 
-        echo "Pour(), depth: {$depth}. Count(name_val_pairs): " . strval(count($name_val_pairs)) . "\n";
+        echo "Pour(), depth: {$depth}. Type: " . gettype($liquid) . ". Count(name_val_pairs): " . strval(count($name_val_pairs)) . "\n";
 
         // Now, use $name_val_pairs instead of $liquid.
 

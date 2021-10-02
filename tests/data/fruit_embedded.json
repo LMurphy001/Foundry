@@ -1,0 +1,18 @@
+[
+{ "color":"green",  "name":"grapes",        "price":"1.50"},
+
+{
+    "color":"red",    "name":"apple",        "price":"1.00",
+    "other_colors": ["green", "gold"]
+},
+
+{ "color":"purple", "name":"plum",          "price":"1.20", "favorite":true},
+
+{
+    "color":"yellow", "name":"banana",        "price":"0.89", 
+    "prop": {"sub1":1, "sub2":2, "sub3":3  }
+},
+
+{ "color":"orange", "name":"papaya",        "price":"3.50"}
+
+]
