@@ -34,15 +34,15 @@ class Utils {
         }
         return $retVal;
     }
-    /*
-    static function isLegalVarName($varName) : bool
+
+    /*static function isLegalVarName($varName) : bool
     {
         // Return true if and only if varName is a string which is a legal PHP variable name
         $pattern = "/^[a-zA-Z_\x80-\xff][a-zA-Z0-9_\x80-\xff]*$/";
         return ($varName != "this") && (1 === preg_match_all($pattern, $varName));
-    }
-    */ /*
-    static function getMatches($matches, string $prefix, string $suffix) {
+    }*/
+
+    /*static function getMatches($matches, string $prefix, string $suffix) {
         $prefLen = strlen($prefix);
         $suffLen = strlen($suffix);
         $totLen = $prefLen + $suffLen;
@@ -61,9 +61,9 @@ class Utils {
                 }
             }
         return $resArray;
-    }
-    */ /*
-    static function getPlaceholders(string $inputStr) : array {
+    }*/
+
+    /*static function getPlaceholders(string $inputStr) : array {
         /* Looking for {$variable} where variable is a legal PHP variable name
          * Was: Looking for <?=$variable?> where variable is a legal PHP variable name
          * /
@@ -72,8 +72,8 @@ class Utils {
         $pattern = '#{([$][a-zA-Z_\x80-\xff][a-zA-Z0-9_\x80-\xff]*)}#';
         preg_match_all($pattern, $inputStr, $matches);
         return self::getMatches($matches, '{$', '}' );
-    }
-    */
+    }*/
+
     /**
     * From https://stackoverflow.com/a/19404373
     * A function to fill the mold with variables, returns filled mold.
@@ -119,4 +119,32 @@ class Utils {
         }
         return true;
     } */
+
+    static public function CSVFileToArray(string $csvFilename) : array {
+        $handle = fopen($csvFilename, "r");
+        $rowNum = 0;
+        $array = array();
+        $names = array();
+        while (($data = fgetcsv($handle)) !== FALSE) {
+            $rowNum++;
+            if ($rowNum == 1) {
+                $names = $data; // The first fetched will be the keys in the key=>value pairs of returned array
+            } else {
+                $thisRow = array();
+                for ($i = 0; $i < count($names); $i++)
+                    if (isset($names[$i]) && isset($data[$i]))
+                        $thisRow[$names[$i]] = $data[$i];
+                $array[] = $thisRow;
+            }
+        }
+        return $array;
+    }
+
+    static public function DecodeJsonFile(string $jsonFilename) : mixed {
+        $results = Utils::getFileContents($jsonFilename);
+        if ($results->hasError()) throw new \Exception("Unable to get contents of Json file $jsonFilename");
+        return json_decode($results->getInfo());
+    }
+
+
 }
