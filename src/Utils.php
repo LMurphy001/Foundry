@@ -34,26 +34,26 @@ class Utils {
         }
         return $retVal;
     }
-
+    /*
     static function isLegalVarName($varName) : bool
     {
         // Return true if and only if varName is a string which is a legal PHP variable name
         $pattern = "/^[a-zA-Z_\x80-\xff][a-zA-Z0-9_\x80-\xff]*$/";
         return ($varName != "this") && (1 === preg_match_all($pattern, $varName));
     }
-
+    */ /*
     static function getMatches($matches, string $prefix, string $suffix) {
         $prefLen = strlen($prefix);
         $suffLen = strlen($suffix);
         $totLen = $prefLen + $suffLen;
         $resArray = array();
-        if ( is_array($matches) /*(strval(gettype($matches)) == "array")*/ &&
+        if ( is_array($matches) /*(strval(gettype($matches)) == "array")* / &&
              (count($matches) >= 1) &&
              is_array($matches[0]) &&
-             /*(strval(gettype($matches[0])) == "array") &&*/
+             /*(strval(gettype($matches[0])) == "array") && * /
              (count($matches[0]) > 0) ) {
                 foreach ($matches[0] as $value) {
-                    /* For each variable appearing in the mold file as {$variable_name} : */
+                    /* For each variable appearing in the mold file as {$variable_name} : * /
                     if (str_starts_with($value, $prefix) &&
                         ( ($suffLen==0) || str_ends_with($value, $suffix))) {
                         $resArray[] = substr($value, $prefLen, strlen($value) - $totLen );
@@ -62,18 +62,18 @@ class Utils {
             }
         return $resArray;
     }
-
+    */ /*
     static function getPlaceholders(string $inputStr) : array {
         /* Looking for {$variable} where variable is a legal PHP variable name
          * Was: Looking for <?=$variable?> where variable is a legal PHP variable name
-         */
-        /* Return an array of strings without the {$}. */
+         * /
+        /* Return an array of strings without the {$}. * /
         //$pattern = "/[<][?][=][$][a-zA-Z_\x80-\xff][a-zA-Z0-9_\x80-\xff]*[?][>]/";
         $pattern = '#{([$][a-zA-Z_\x80-\xff][a-zA-Z0-9_\x80-\xff]*)}#';
         preg_match_all($pattern, $inputStr, $matches);
         return self::getMatches($matches, '{$', '}' );
     }
-
+    */
     /**
     * From https://stackoverflow.com/a/19404373
     * A function to fill the mold with variables, returns filled mold.
@@ -82,11 +82,11 @@ class Utils {
     * @param array $variables A key => value store of variable names and values.
     *
     * @return string
-    */
+    */ /*
     static function replaceVariablesInMold(string $mold, array $variables) :string|null {
-        /* Original pattern; it allows any character inside the {} */
+        /* Original pattern; it allows any character inside the {} * /
         // $pattern = '#{(.*?)}#';
-        /* Improved pattern, restricts the match to a PHP variable name. */
+        /* Improved pattern, restricts the match to a PHP variable name. * /
         $pattern = '#{([$][a-zA-Z_\x80-\xff][a-zA-Z0-9_\x80-\xff]*)}#';
         $str = preg_replace_callback(
                 $pattern,
@@ -101,7 +101,7 @@ class Utils {
         }
         return $str;
    }
-
+    */ /*
     static function isDict(array $array) : bool {
         /**
          * Check to see if $array is a dictionary with every key being a string.
@@ -112,11 +112,11 @@ class Utils {
          *
          * If you need something else, see STACKOVERFLOW question:
          *       How to check if PHP array is associative or sequential?
-         */
+         * /
         foreach ($array as $key=>$val) {
             if (!is_string($key))
                 return false;
         }
         return true;
-    }
+    } */
 }
