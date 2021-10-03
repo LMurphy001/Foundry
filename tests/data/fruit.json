@@ -1,7 +1,7 @@
 [
-{ "color":"green",  "name":"grapes",        "price":"$1.50"},
-{ "color":"red",    "name":"red delicious", "price":"$1.00"},
-{ "color":"purple", "name":"plum",          "price":"$1.20", "favorite":true},
-{ "color":"yellow", "name":"banana",        "price":"$0.89"},
-{ "color":"orange", "name":"papaya",        "price":"$3.50"}
+{ "color":"green",  "name":"grapes",        "price":"1.50"},
+{ "color":"red",    "name":"red delicious", "price":"1.00"},
+{ "color":"purple", "name":"plum",          "price":"1.20", "favorite":true},
+{ "color":"yellow", "name":"banana",        "price":"0.89"},
+{ "color":"orange", "name":"papaya",        "price":"3.50"}
 ]

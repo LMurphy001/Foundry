@@ -8,18 +8,17 @@ class Tests {
         /* Generate the given format for each type of input data */
         //$s = '';
 
-        
-        Tests::singleFruit($format);
+        /*Tests::singleFruit($format);
         Tests::singleObject($format);
         Tests::json_str1($format);
 
         Tests::multipleFruit($format);
         Tests::objectList($format);
-        Tests::csv_file($format);
-        Tests::json_file($format);
+        Tests::csv_file($format);*/
+        //Tests::json_file($format);
 
-        Tests::json_str2($format);
-        Tests::pdo_fetchall($format);
+        //Tests::json_str2($format);
+        //Tests::pdo_fetchall($format);
 
         Tests::json_file2($format);
 
@@ -125,9 +124,10 @@ class Tests {
         return SELF::run("json_file", $data, $generateFormat);
     }
     static function json_file2(string $generateFormat) {
-        $jsonFile2 = __DIR__ . DIRECTORY_SEPARATOR. 'data' . DIRECTORY_SEPARATOR . 'fruit_embedded.json';
+        $jsonFile2 = __DIR__ . DIRECTORY_SEPARATOR. 'data' . DIRECTORY_SEPARATOR . 'MartinAddedPhoto.json';
         $data = Utils::DecodeJsonFile($jsonFile2);
-        return SELF::run("json_file2", $data, $generateFormat);
+        echo Utils::humanReadableVar($data)."\n";
+        //return SELF::run("json_file2", $data, $generateFormat);
     }
     static function json_str1(string $generateFormat) {
         $jsonStr = '{ "color":"orange", "name":"papaya", "price":"3.50" }';

@@ -3,7 +3,7 @@ declare(strict_types=1);
 namespace LM\Foundry;
 class Cast
 {
-    static function pour(string $moldFileName, mixed $liquid, bool $useHtmlSpecialChars=true, int $depth=0 ) : string|array
+    static function pour(string $moldFileName, mixed $liquid, bool $useHtmlSpecialChars=true, string $parentKey='', int $depth=0 ) : string|array
     {
         // TODO: Change $moldFileName to an array or object or set. Use $depth to help determine which of the molds to use...
         // Somehow figure out, when recursive call is made, which mold file to fill.
@@ -27,14 +27,27 @@ class Cast
         // * At some point, explore iterator_apply() - call function for every element in iterator
         // ******************************************************************************************
 
+        $isAssociative = false;
         // After taking care of base cases, what is left? : array, object, or iterable
         if (is_object($liquid)) {
             $name_val_pairs = get_object_vars($liquid);
+            $isAssociative = true;
         } else {
             $name_val_pairs = $liquid;
+            $nvpKeys = array_keys(($name_val_pairs));
+            $nvpCount = count($nvpKeys);
+            for ($j=0; $j < $nvpCount; $j++) {
+                if (is_string($nvpKeys[$j]) ) {
+                    $isAssociative = true;
+                    break;
+                }
+            }
         }
 
-        echo "Pour(), depth: {$depth}. Type: " . gettype($liquid) . ". Count(name_val_pairs): " . strval(count($name_val_pairs)) . "\n";
+        echo "Pour(), depth: {$depth}. Type: " . gettype($liquid) . 
+            ". Count(name_val_pairs): " . strval(count($name_val_pairs)) .
+            ". Is Associative: {$isAssociative}" .
+            ". ParentKey $parentKey\n";
 
         // Now, use $name_val_pairs instead of $liquid.
 
@@ -55,15 +68,22 @@ class Cast
                 $curMold = str_replace('{$'.$name.'}', $str, $curMold );
             } else {
                 // RECURSION:
-                $arr[$pair_name] = Cast::pour($moldFileName, $pair_val, $useHtmlSpecialChars, $depth+1);
+                $arr[$pair_name] = Cast::pour($moldFileName, $pair_val, $useHtmlSpecialChars, $name, $depth+1);
             }
         }
+        if ($isAssociative) {
+            $delim = "\n"; }
+        else {
+            $delim = " "; }
+
         if (count($arr) == 0)
             return $curMold;
-        elseif ($curMold == $origMold)
-            return $arr;
+        elseif ($curMold == $origMold) {
+            $impl = implode($delim, $arr);
+            return $impl;
+        }
         else
-            return [$curMold, $arr];
+            return $curMold . $delim . implode($delim, $arr);
     }
         /*
         if (Utils::isDict($liquid)) {

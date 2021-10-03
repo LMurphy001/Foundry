@@ -101,7 +101,7 @@ class Utils {
         }
         return $str;
    }
-    */ /*
+    */ 
     static function isDict(array $array) : bool {
         /**
          * Check to see if $array is a dictionary with every key being a string.
@@ -112,13 +112,13 @@ class Utils {
          *
          * If you need something else, see STACKOVERFLOW question:
          *       How to check if PHP array is associative or sequential?
-         * /
+         */
         foreach ($array as $key=>$val) {
             if (!is_string($key))
                 return false;
         }
         return true;
-    } */
+    } 
 
     static public function CSVFileToArray(string $csvFilename) : array {
         $handle = fopen($csvFilename, "r");
@@ -147,4 +147,35 @@ class Utils {
     }
 
 
+    static public function humanReadableVar(mixed $data, mixed $name='', int $depth=0) : string {
+        $indent = str_pad('', (2*$depth));
+        if (is_scalar($data) || is_null($data)) return $indent.$name.' = '.strval($data). " (" .gettype($data) . ")\n";
+        if (is_callable($data) )  return $indent.$name.'='."(callable)\n";
+        if (is_resource($data) ) return $indent.$name.'='."(resource)\n";
+        $typeStr = '';
+        unset($iterable);
+        $retVal = '';
+        if (is_object($data)) {
+            $typeStr = "OBJECT";
+            $iterable = get_object_vars($data);
+        } else {
+            $iterable = $data;
+            if (is_array($data)) {
+                if (Utils::isDict($data)) 
+                    $typeStr = "KEYED ARRAY";
+                else
+                    $typeStr = "ARRAY";
+            }
+            elseif (is_iterable($data)) {
+                $typeStr = 'ITERABLE';
+            }
+        }
+        if (isset($iterable)) {
+            $retVal .= $indent . $name . ' ' . $typeStr . "\n";
+            foreach ($iterable as $key => $value) {
+                $retVal .= SELF::humanReadableVar($value, $key, $depth+1);
+            }
+        }
+        return $retVal;
+    }
 }

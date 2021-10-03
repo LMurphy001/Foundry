@@ -1,0 +1,29 @@
+  {$context}
+  {$summary}
+
+  {$items[0]}
+
+  {$items[0][published]}
+
+  {$items[0][nameMap][en]}
+
+  {$items[0][actor][name]}
+
+  {$items[0][actor][image][mediaType]}
+
+  {$items[0][object][name]}
+
+  {$items[0][object][url][1][type]}
+
+  {$items[0][target][id]}
+
+  {$items[0][target][nameMap][en]}
+
+When a string matching {$something} is found, breakup 'something' into parts.
+Use the parts to drill down into the input "$liquid" parameter.
+
+Get the type of the thing found. If a scalar or null, use htmlspecialchars or strval
+
+if an object, array, or iterable, then do a foreach loop.
+Gather the aggregate results of the foreach loop and replace the
+'something' with the aggregate results.
