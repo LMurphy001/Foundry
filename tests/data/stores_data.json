@@ -1,0 +1,28 @@
+{
+    "doc_title" : "Fruit Prices at Nearby Stores",
+    "store_list" :
+      [
+          {
+            "store_name" : "Green Grocer",
+            "fruits" : [
+                {"fruit_name" : "Red Delicious Apple",    "color" : "red",    "price" : 0.79 },
+                {"fruit_name" : "Golden Delicious Apple", "color" : "yellow", "price" : 0.85 },
+                {"fruit_name" : "Gravenstein Apple",      "color" : "yellow", "price" : 0.89 },
+                {"fruit_name" : "Fuji Apple",             "color" : "red",    "price" : 0.79 }
+                ],
+            "store_rating" : 3.6
+            },
+        {
+            "store_name" : "4th St Food Co-op",
+            "store_rating" :4.6,
+            "fruits" : [
+                {"fruit_name" : "Honeycrisp Apple",     "color" : "red",          "price" : 1.09 },
+                {"fruit_name" : "Granny Smith Apple",   "color" : "green",        "price" : 0.79 },
+                {"fruit_name" : "Pink Lady Apple",      "color" : "red & green",  "price" : 0.79 },
+                {"fruit_name" : "Gala Apple",           "color" : "red & yellow", "price" : 0.59 },
+                {"fruit_name" : "Braeburn Apple",       "color" : "orange",       "price" : 0.99 },
+                {"fruit_name" : "Mcintosh Apple",       "color" : "red",          "price" : 0.69 }
+                ]
+            }
+        ]
+    }

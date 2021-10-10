@@ -1,1 +1,1 @@
-<tr>  <td>{$num}.</td>  <td>{$name}</td>  <td>{$color}</td>  <td>{$price}</td>  </tr>
+<tr>  <td>{$fruit_name}</td>  <td>{$color}</td>  <td>{$price}</td>  </tr>

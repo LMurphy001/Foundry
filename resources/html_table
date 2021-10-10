@@ -1,6 +1,6 @@
 <table>
-<caption>{$caption}</caption>
-<tr>  <th>#</th><th>Name</th>  <th>Color</th>  <th>Price</th>  </tr>
-{$rows}
+<caption>{$store_name}</caption>
+<tr>  <th>Name</th>  <th>Color</th>  <th>Price</th>  </tr>
+{pour $fruits 'html_row'}
 </table>
 

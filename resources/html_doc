@@ -9,7 +9,7 @@
   
   <body>
     <h1>{$doc_title}</h1>
-{$doc_contents}
+{pour  $store_list  'html_table'  }
   </body>
 
 </html>

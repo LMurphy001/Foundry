@@ -1,0 +1,124 @@
+Let's suppose you have data like this:
+
+$doc = 
+  [ 'doc_title' => "Fruit Prices at Nearby Stores",
+    'store_list' =>
+      [
+          0 : [ 'store_name' => 'Green Grocer',
+                'fruits' => [
+                0 => [ 'fruit_name' => 'Red Delicious Apple',    'color' => 'red',    'price' => 0.79 ],
+                1 => [ 'fruit_name' => 'Golden Delicious Apple', 'color' => 'yellow', 'price' => 0.85 ],
+                2 => [ 'fruit_name' => 'Gravenstein Apple',      'color' => 'yellow', 'price' => 0.89 ],
+                3 => [ 'fruit_name' => 'Fuji Apple',             'color' => 'red',    'price' => 0.79 ]
+                ],
+                'store_rating' => 3.6
+              ],
+          1 : [ 'store_name' => '4th St Food Co-op',
+                'store_rating' =>4.6,
+                'fruits' => [
+                  0 => ['fruit_name' => 'Honeycrisp Apple',     'color' => 'red', 'price' => 1.09 ],
+                  1 => ['fruit_name' => 'Granny Smith Apple',   'color' => 'green', 'price' => 0.79 ],
+                  2 => ['fruit_name' => 'Pink Lady Apple',      'color' => 'red & green', 'price' => 0.79 ],
+                  3 => ['fruit_name' => 'Gala Apple',           'color' => 'red & yellow', 'price' => 0.59 ],
+                  4 => ['fruit_name' => 'Braeburn Apple',       'color' => 'orange', 'price' => 0.99 ],
+                  5 => ['fruit_name' => 'Mcintosh Apple',       'color' => 'red', 'price' => 0.69 ],
+                ]
+              ]
+      ]
+  ]
+
+What would be the most intuitive way to add "hollows" to molds and then fill those hollows with these multi-layer, multi-item data?
+
+{$doc_title} should be filled with: Fruit Prices at Nearby Stores
+
+What about the stores, or the fruits in the stores?
+
+{$store_list[2][store_name]} should be filled with: 4th St Food Co-op
+
+I'd be assuming that the mold starts counting at 1, unlike many programming languages. This isn't a programming language.
+
+What if we wanted the parts of the fruits lists?
+
+{$store_list[*][fruits][*][fruit_name]}
+{$store_list[*][fruits][*][color]}
+{$store_list[*][fruits][*][price]}
+
+The first asterisk would mean, ALL of the items of $store_list.
+For each store, [fruits] means the list of fruit at that store.
+The second asterisk would mean all of the fruit in all of the fruits lists.
+
+What should be generated for {$store_list[1][fruits]} since it is a list of objects (or list of dictionaries)?
+
+The trick is to indicate that some snippet inside the mold needs to be repeated for each of the items which make up the '*' in a list.
+
+One could even use [1-2] to only do the repeatable thing for the first 2 items in a list. 
+{$store_list[2][fruits][1-2][fruit_name]  would be Honeycrisp Apple and Granny Smith Apple. The result is more than one value. What to do?
+
+Note that list[0] would not mean anything.
+
+So, how to embed repeatable things inside the mold and associate them with the right chunk of data?
+
+Anytime there's an asterisk or a posint-posint inside square brakets [],
+there needs to be a pattern to match each of the multiple items which will be generated for it.
+
+Note that the data could include something like this:
+
+$data = [
+    'first_field' => 'value of 1st field',
+    'second_field' => 'value of 2nd field',
+    'third_field => [ 
+        'prop_a' => 'prop a value',
+        'prop_b' => 'prob b value',
+        'prop_c' => 'prop_c value'
+    ],
+    'fourth_field' => 'value of 4th field'
+  
+]
+
+We cannot ONLY rely on [*] and [m-n] to detect multi-values. In this case,
+{$data['third_field']} returns multi-values, but uses strings rather than positive integers as the indexes.
+Those strings, e.g. prob_a, should be available for use to the mold writer.
+
+{$data['third_field']} should have a repeatable snippit associated with it, and it would be repeated for 
+each of prop_a, prop_b, prop_c and their respective values.
+
+Alternatively, the mold writer could provide
+{$data['third_field']['prop_b']}
+which returns only a single value (prob b value), so it doesn't need to have a repeatable snippet associated with it.
+
+The php syntax would be
+$data[third_field][prop_a] and would only evaluation to a single thing.
+$data[third_field] corresponds to an array in php. One could use "foreach" statement, or array_walk() with callback function.
+
+What if the foreach (or array_walk) encounters an array or object as the value for a key?
+What if the thing handling $data variable above is not expecting that 'third_field' could be an array?
+It would have to do something reasonable.
+
+array_map(null, list1, list2) will zip list1 and list2 together. But what happends when they're not the same length?
+There's also array_slice(), array_combine(), array_merge(), array_filter(), array_key_exists()...
+So many choices...
+
+How to generate this:
+
+# Green Grocer
+Rating: 3.6
+
+Name  | Color | Price
+------|-------|-------
+r1-c1 | r1-c2 | r1-c3
+r2-c1 | r2-c2 | r2-c3
+:
+:
+
+# 4th Street Food Co-op
+Rating: 4.6
+
+Name  | Color | Price
+------|-------|-------
+r1-c1 | r1-c2 | r1-c3
+r2-c1 | r2-c2 | r2-c3
+:
+:
+
+Maybe there's no way around writing in the name of the chained sub-mold?
+

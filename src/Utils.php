@@ -35,12 +35,12 @@ class Utils {
         return $retVal;
     }
 
-    static function isLegalVarName($varName) : bool
+    /*static function isLegalVarName($varName) : bool
     {
         // Return true if and only if varName is a string which is a legal PHP variable name
         $pattern = "/^[a-zA-Z_\x80-\xff][a-zA-Z0-9_\x80-\xff]*$/";
         return ($varName != "this") && (1 === preg_match_all($pattern, $varName));
-    }
+    }*/
 
     static function getMatches($matches, string $prefix, string $suffix) {
         $prefLen = strlen($prefix);
@@ -63,15 +63,16 @@ class Utils {
         return $resArray;
     }
 
-    static function getPlaceholders(string $inputStr) : array {
+    static function getPlaceholders(string $inputStr, string $pattern) : array {
         /* Looking for {$variable} where variable is a legal PHP variable name
          * Was: Looking for <?=$variable?> where variable is a legal PHP variable name
          */
         /* Return an array of strings without the {$}. */
         //$pattern = "/[<][?][=][$][a-zA-Z_\x80-\xff][a-zA-Z0-9_\x80-\xff]*[?][>]/";
-        $pattern = '#{([$][a-zA-Z_\x80-\xff][a-zA-Z0-9_\x80-\xff]*)}#';
+        //$pattern = '#{([$][a-zA-Z_\x80-\xff][a-zA-Z0-9_\x80-\xff]*)}#';
+        //$pattern = "#{([$][a-zA-Z][a-zA-Z\x20\x24\x27\x5f]*)}#";
         preg_match_all($pattern, $inputStr, $matches);
-        return self::getMatches($matches, '{$', '}' );
+        return $matches;
     }
 
     /**
@@ -118,5 +119,11 @@ class Utils {
                 return false;
         }
         return true;
+    }
+
+    static public function DecodeJsonFile(string $jsonFilename) : mixed {
+        $results = Utils::getFileContents($jsonFilename);
+        if ($results->hasError()) throw new \Exception("Unable to get contents of Json file $jsonFilename");
+        return json_decode($results->getInfo(), true);
     }
 }

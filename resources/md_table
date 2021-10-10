@@ -1,6 +1,7 @@
-### {$caption}
+### {$store_name}
 
-Num|Name|Color|Price
----|---|---|---
-{$rows}
+Rating: {$store_rating}
 
+Name|Color|Price
+---|---|---|
+{pour $fruits 'md_row'}

@@ -1,1 +1,1 @@
-{$num}|{$name}|{$color}|${$price}
+{$fruit_name}|{$color}|${$price}
