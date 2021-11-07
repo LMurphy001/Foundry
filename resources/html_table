@@ -1,5 +1,5 @@
 <table>
-<caption>{$store_name}</caption>
+<caption>{$store_name} (Rating: {$store_rating})</caption>
 <tr>  <th>Name</th>  <th>Color</th>  <th>Price</th>  </tr>
 {pour $fruits 'html_row'}
 </table>

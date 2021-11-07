@@ -8,26 +8,11 @@ Either https://www.php.net/downloads.php or https://windows.php.net/download
 1. For Instructions on how to set up and use Foundry in your project, read the [INSTRUCTIONS](INSTRUCTIONS.md) file.
 
 ---
-## Basic functionality
-
-To quickly understand what this does, look at files
-* [resources/simple_example](resources/simple_example.txt) (the mold) and
-* [tests/simple_example.php](tests/simple_example.php) (a controller)
-
-These files show how to generate some simple filled-in plain text.
-
-To run simple_example,
-1. Open a command line window.
-1. Change working directory to the tests subfolder.
-1. Run command:
-    > php simple_example.php
-
----
 ## Usage
 
 The main method is  
 ```
-Cast::pour(string $moldName, array $liquid, bool $useHtmlSpecialChars=true ) : Results
+Cast::pour(string $moldName, array $liquid, bool $useHtmlSpecialChars=true, int $depth=0 ) : Results
 ```
 
 ### Input parameters:  
@@ -40,6 +25,8 @@ Cast::pour(string $moldName, array $liquid, bool $useHtmlSpecialChars=true ) : R
 
 1. useHtmlSpecialChars is a bool which determines if the variables' values are process with *htmlspecialchars()*.
 
+1. Depth is the number of levels of recursive calls to the pour() function.
+
 ### Return Value
 
 Results is a helper class which wraps up multiple values into an object so that a function can return more than one value.
@@ -50,10 +37,7 @@ Results has methods like getError() and getInfo() to retrieve the values within 
 ## Features
 
 * Lets you generate more than html code. You can cast anything you like, including plain text.
-* Native PHP. You don't need to learn another language. Future phases of this project may change that.
-* Simple syntax. Use {$variable} in molds to replace the placeholder with the value of $variable.
+* Mostly native PHP. You don't need to learn another language. The only exception to this is if you want to include multiple rows of data, you'll need to use the {pour $data 'moldfile'} syntax in your mold, to recursively pour data within a larger array of data into another moldfile.
 * You can "chain" mold results together, i.e. use the output of *pour()* as input into a subsequent call to *pour().*
-* Use the ToArray class to adapt data into an array suitable for sending into the *pour()* method.
-* Sample molds are provided for generating text, md, and html formats. See the ['resources'](./resources) folder.
-* Sample input data are provided. See ['tests/data'](./tests/data) folder.
-* Tests are available by running *php tests/main.php* from the command line. Note that one of the tests intentionally produces errors to show that those errors are being caught.
+* Sample molds are provided for generating md and html formats. See the ['resources'](./resources) folder.
+* Tests are available by running tests\runtests.bat from the command line.

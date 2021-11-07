@@ -1,3 +1,5 @@
 # Guidelines for contributing to this project
 
-No guidelines written yet.
+Be kind to each other.
+
+If you find this code useful, please send me a note!
