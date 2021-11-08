@@ -1,0 +1,11 @@
+store,store_rating,fruit_name,color,price
+Green Grocer,3.6,Red Delicious Apple,red,0.79
+Green Grocer,3.6,Golden Delicious Apple,yellow,0.85
+Green Grocer,3.6,Gravenstein Apple,yellow,0.89
+Green Grocer,3.6,Fuji Apple,red,0.79
+4th St Food Co-op,4.6,Honeycrisp Apple,red,1.09
+4th St Food Co-op,4.6,Granny Smith Apple,green,0.79
+4th St Food Co-op,4.6,Pink Lady Apple,red & green,0.79
+4th St Food Co-op,4.6,Gala Apple,red & yellow,0.59
+4th St Food Co-op,4.6,Braeburn Apple,orange,0.99
+4th St Food Co-op,4.6,Mcintosh Apple,red,0.69

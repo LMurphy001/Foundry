@@ -12,7 +12,7 @@ function runSqlite(string $dbFilename, string $moldFilename) : Results {
     // Make the queries ready for the 'pour' function
     // call cast->pour() method
     $results = new Results;
-    $pdo = new PDO('sqlite:data\\stores.sqlite');
+    $pdo = new PDO('sqlite:' . $dbFilename); // data\\stores.sqlite');
     $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
     $sql = 'SELECT store_name, rating FROM store';
     $sth = $pdo->prepare($sql);
@@ -44,7 +44,6 @@ function runSqlite(string $dbFilename, string $moldFilename) : Results {
         "doc_title" => "Fruit Prices at Nearby Stores",
         "store_list" => $stores_data
     ];
-
     $results = Cast::pour($moldFilename, $data);
     return $results;
 }

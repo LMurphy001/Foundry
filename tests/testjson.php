@@ -12,7 +12,6 @@ function runJson(string $dataFilename, string $moldFilename) : Results {
     $jsonAsArray = Utils::DecodeJsonFile($dataFilename);
     $results = Cast::pour($moldFilename, $jsonAsArray);
     return $results;
-    //"The data file is {$dataFilename}\n  and the mold file is {$moldFilename}\n  and the results are {$results}";
 }
 
 echo Main::main($argc, $argv, 'json', 'runJson');
